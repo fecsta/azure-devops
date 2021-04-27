@@ -4,20 +4,20 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/python
 
 trigger:
-- main
+- master
 
 variables:
   # Azure Resource Manager connection created during pipeline creation
-  azureServiceConnectionId: '72a0168f-f7c9-4b36-b6d0-4f92b2c01438'
+  azureServiceConnectionId: 'e639dbfa-7191-42a1-b74b-ac33d6732c5c'
 
   # Web app name
-  webAppName: 'fiap3'
+  webAppName: 'fiap-fecsta'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
 
   # Environment name
-  environmentName: 'fiap3'
+  environmentName: 'fiap-fecsta'
 
   # Project root folder. Point to the folder containing manage.py file.
   projectRoot: $(System.DefaultWorkingDirectory)
@@ -42,10 +42,10 @@ stages:
         python -m venv antenv
         source antenv/bin/activate
         python -m pip install --upgrade pip
+        pip install setup
         pip install -r requirements.txt
       workingDirectory: $(projectRoot)
       displayName: "Install requirements"
-
     - task: ArchiveFiles@2
       displayName: 'Archive files'
       inputs:
@@ -79,7 +79,7 @@ stages:
             displayName: 'Use Python version'
 
           - task: AzureWebApp@1
-            displayName: 'Deploy Azure Web App : fiap3'
+            displayName: 'Deploy Azure Web App : fiap-fecsta'
             inputs:
               azureSubscription: $(azureServiceConnectionId)
               appName: $(webAppName)
